@@ -1,27 +1,40 @@
-import { Component } from '@angular/core';
-
+import { Component, Inject } from '@angular/core';
 import {LiveAnnouncer} from '@angular/cdk/a11y';
 import {AfterViewInit, ViewChild} from '@angular/core';
 import {MatSort, Sort, MatSortModule} from '@angular/material/sort';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
+import { DialogOverviewComponent } from '../dialog-overview/dialog-overview.component';
+
+import {
+  MatDialog,
+} from '@angular/material/dialog';
 
 export interface PeriodicElement {
+  id:string;
   name: string;
-  position: number;
-  weight: number;
-  symbol: string;
+  department: string;
+  address: string;
+  city: string;
+  state: string;
 }
+
+export interface DialogData {
+  animal: string;
+  name: string;
+}
+
 const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
+  {id:"E101", name: 'Ram', department: "D1", address: 'A1', city:"Coimbatore", "state": "Tamil Nadu"},
+  {id:"E102", name: 'Arjun', department: "D2", address: 'A2', city:"Madurai", "state": "Tamil Nadu"},
+  {id:"E103", name: 'Kishore', department: "D3", address: 'A3', city:"Salem", "state": "Tamil Nadu"},
+  {id:"E104", name: 'Benil', department: "D4", address: 'A4', city:"Trichy", "state": "Tamil Nadu"},
+  {id:"E105", name: 'Jeyam', department: "D5", address: 'A5', city:"Erode", "state": "Tamil Nadu"},
+  {id:"E106", name: 'Revi', department: "D6", address: 'A6', city:"Tiruppur", "state": "Tamil Nadu"},
+  {id:"E107", name: 'Nikita', department: "D7", address: 'A7', city:"Thanjavur", "state": "Tamil Nadu"},
+  {id:"E108", name: 'Vijay', department: "D8", address: 'A8', city:"Tirunelveli", "state": "Tamil Nadu"},
+  {id:"E109", name: 'Nova', department: "D9", address: 'A9', city:"Palani", "state": "Tamil Nadu"},
+  {id:"E110", name: 'Eric', department: "D10", address: 'A10', city:"Namakkal", "state": "Tamil Nadu"},
+
 ];
 
 @Component({
@@ -30,11 +43,33 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrl: './home.component.scss'
 })
 export class HomeComponent implements AfterViewInit{
-
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
+  
+  displayedColumns: string[] = ["id",'name', 'department', 'address', 'city', 'state', 'action'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
 
-  constructor(private _liveAnnouncer: LiveAnnouncer) {}
+  constructor(private _liveAnnouncer: LiveAnnouncer, public dialog: MatDialog) {
+    
+  }
+
+  
+
+  // openDialog(): void {
+    
+  //   const dialogRef = this.dialog.open(DialogOverviewComponent, {
+  //     // data: {name: this.name, animal: this.animal},
+  //   });
+
+  //   dialogRef.afterClosed().subscribe(result => {
+  //     console.log('The dialog was closed');
+  //     // this.animal = result;
+  //   });
+  // }
+
+  openDialog(): void{
+    this.dialog.open(DialogOverviewComponent)
+  }
+
+
 
   @ViewChild(MatSort) sort!: MatSort;
 
