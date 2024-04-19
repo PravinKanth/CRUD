@@ -18,6 +18,7 @@ import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { ToastrModule } from 'ngx-toastr';
+import { EffectsModule } from '@ngrx/effects';
 
 import {
 
@@ -28,6 +29,10 @@ import {
   
 } from '@angular/material/dialog';
 import { DialogOverviewComponent } from './dialog-overview/dialog-overview.component';
+import { StoreModule } from '@ngrx/store';
+import { formReducer } from './states/submission/submission.reducer';
+import { FormEffects } from './states/submission/submission.effects';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -47,7 +52,9 @@ import { DialogOverviewComponent } from './dialog-overview/dialog-overview.compo
     MatDialogClose,
     CommonModule,
     BrowserAnimationsModule, // required animations module
-    ToastrModule.forRoot(),
+    ToastrModule.forRoot(), StoreModule.forRoot({form:formReducer}, {}),
+    EffectsModule.forRoot([FormEffects]),
+    HttpClientModule
   ],
   providers: [
     provideAnimationsAsync(),
